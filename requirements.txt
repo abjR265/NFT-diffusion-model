@@ -1,7 +1,10 @@
 flask
-torch
-diffusers
-transformers
-imagehash
-Pillow
 flask-cors
+torch
+torchvision
+numpy
+pillow
+requests
+transformers
+diffusers
+accelerate
