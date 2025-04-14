@@ -3,7 +3,9 @@ from flask_cors import CORS
 from generator import generate_game_nft, validate_prompt_image, is_unique_image
 
 app = Flask(__name__)
-CORS(app)  #  Allow requests from your Vercel frontend
+
+#  Enable CORS only for /generate endpoint from any origin (like Vercel)
+CORS(app, resources={r"/generate": {"origins": "*"}})
 
 @app.route("/generate", methods=["POST"])
 def generate():
@@ -18,7 +20,7 @@ def generate():
     unique = is_unique_image(img_path)
 
     return jsonify({
-        "image_url": img_path,         #  Match the key used in frontend: image_url
+        "image_url": img_path,
         "similarity": score,
         "prompt_match": valid,
         "is_unique": unique
@@ -26,5 +28,5 @@ def generate():
 
 if __name__ == "__main__":
     from os import environ
-    port = int(environ.get("PORT", 80))  #  Default to 80 for Railway to expose clean URL
+    port = int(environ.get("PORT", 80))  # Railway exposes clean URL on port 80
     app.run(host="0.0.0.0", port=port)
