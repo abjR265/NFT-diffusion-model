@@ -13,7 +13,7 @@ def apply_cors(response):
 
 @app.route("/generate", methods=["POST", "OPTIONS"])
 def generate():
-    #  Handle preflight OPTIONS request for CORS
+    #  Handle preflight OPTIONS request 
     if request.method == "OPTIONS":
         return make_response("", 204)
 
