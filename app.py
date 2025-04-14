@@ -3,9 +3,7 @@ from flask_cors import CORS
 from generator import generate_game_nft, validate_prompt_image, is_unique_image
 
 app = Flask(__name__)
-
-#  Enable CORS only for /generate endpoint from any origin (like Vercel)
-CORS(app, resources={r"/generate": {"origins": "*"}})
+CORS(app, origins="*", allow_headers=["Content-Type", "Authorization"], methods=["POST", "OPTIONS"])
 
 @app.route("/generate", methods=["POST"])
 def generate():
@@ -28,5 +26,5 @@ def generate():
 
 if __name__ == "__main__":
     from os import environ
-    port = int(environ.get("PORT", 80))  # Railway exposes clean URL on port 80
+    port = int(environ.get("PORT", 80))
     app.run(host="0.0.0.0", port=port)
