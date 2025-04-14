@@ -14,7 +14,7 @@ export default function Home() {
     setError('');
 
     try {
-      const res = await fetch('https://nft-diffusion-model.vercel.app/generate', {
+      const res = await fetch('https://nft-diffusion-model-production.up.railway.app/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
