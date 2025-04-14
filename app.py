@@ -1,12 +1,22 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Flask, request, jsonify, make_response
 from generator import generate_game_nft, validate_prompt_image, is_unique_image
 
 app = Flask(__name__)
-CORS(app, origins="*", allow_headers=["Content-Type", "Authorization"], methods=["POST", "OPTIONS"])
 
-@app.route("/generate", methods=["POST"])
+@app.after_request
+def add_cors_headers(response):
+    #  Force CORS headers on every response
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'POST,OPTIONS'
+    return response
+
+@app.route("/generate", methods=["POST", "OPTIONS"])
 def generate():
+    #  Handle preflight OPTIONS request
+    if request.method == "OPTIONS":
+        return make_response('', 204)
+
     data = request.json
     prompt = data.get("prompt")
 
