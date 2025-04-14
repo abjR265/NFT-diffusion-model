@@ -4,3 +4,4 @@ diffusers
 transformers
 imagehash
 Pillow
+flask-cors
