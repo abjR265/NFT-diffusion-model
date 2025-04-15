@@ -1,7 +1,7 @@
 flask
 flask-cors
-torch
-torchvision
+torch==2.1.0
+torchvision==0.16.0
 numpy
 pillow
 requests
@@ -9,4 +9,4 @@ transformers
 diffusers
 accelerate
 imagehash
-git+https://github.com/openai/CLIP.git
+git+https://github.com/openai/CLIP.git#egg=clip
