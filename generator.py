@@ -51,8 +51,6 @@ os.makedirs("/mnt/data", exist_ok=True)
 shutil.copy("generated_asset.png", "/mnt/data/image.png")
 print("✅ Copied to /mnt/data/image.png")
 
-!pip install git+https://github.com/openai/CLIP.git
-!pip install imagehash
 
 # ✅ Step 2: Import Libraries
 import os
