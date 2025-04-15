@@ -5,17 +5,20 @@ app = Flask(__name__)
 
 @app.after_request
 def apply_cors(response):
-    #  Manually add CORS headers to every response
     response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
-    response.headers["Access-Control-Allow-Methods"] = "POST,OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
     return response
 
 @app.route("/generate", methods=["POST", "OPTIONS"])
 def generate():
-    #  Handle preflight OPTIONS request 
     if request.method == "OPTIONS":
-        return make_response("", 204)
+        # Preflight request handling
+        response = make_response()
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        return response, 204
 
     data = request.get_json()
     prompt = data.get("prompt")
