@@ -40,7 +40,6 @@ generate_metadata("Thunderblade", {
     "Type": "Sword"
 })
 
-pip install transformers torch torchvision pillow imagehash
 
 import os
 import shutil
