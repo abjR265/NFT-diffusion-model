@@ -4,7 +4,15 @@ from generator import generate_game_nft, validate_prompt_image, is_unique_image
 import os
 
 app = Flask(__name__)
-CORS(app)  # Enables CORS for all domains and routes
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+# ✅ Manually add headers in case flask-cors doesn't catch cold-starts
+@app.after_request
+def add_cors_headers(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
+    return response
 
 @app.route("/generate", methods=["POST"])
 def generate():
