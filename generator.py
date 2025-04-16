@@ -1,15 +1,15 @@
-# generator.py
-
 import os
+import uuid
 from PIL import Image
 import torch
 import clip
 import imagehash
 from diffusers import StableDiffusionPipeline
 
+# Set device
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-# Lazy load: initialize these as None
+# Lazy initialization
 pipe = None
 clip_model = None
 clip_preprocess = None
@@ -21,13 +21,28 @@ def load_models():
     if clip_model is None:
         clip_model, clip_preprocess = clip.load("ViT-B/32", device=device)
 
-def generate_game_nft(prompt, save_path="generated_asset.png"):
+def generate_game_nft(prompt):
+    """
+    Generate an image from a prompt and save it in the static/ folder
+    Returns the filename (not the full path)
+    """
     load_models()
+
+    # Generate image
     image = pipe(prompt).images[0]
+
+    # Generate unique filename and save to static/
+    filename = f"{uuid.uuid4().hex}.png"
+    save_path = os.path.join("static", filename)
+    os.makedirs("static", exist_ok=True)
     image.save(save_path)
-    return save_path
+
+    return filename  # Only the filename (for public URL construction)
 
 def validate_prompt_image(prompt: str, image_path: str, threshold: float = 0.3):
+    """
+    Validate if the image matches the prompt using CLIP similarity.
+    """
     load_models()
     try:
         image = clip_preprocess(Image.open(image_path)).unsqueeze(0).to(device)
@@ -44,6 +59,9 @@ def validate_prompt_image(prompt: str, image_path: str, threshold: float = 0.3):
         return False, 0.0
 
 def is_unique_image(image_path: str, history_dir: str = "assets", threshold: int = 10):
+    """
+    Check if the generated image is unique by comparing perceptual hashes.
+    """
     try:
         current_hash = imagehash.phash(Image.open(image_path))
         os.makedirs(history_dir, exist_ok=True)

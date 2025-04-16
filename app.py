@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, send_from_directory
 from generator import generate_game_nft, validate_prompt_image, is_unique_image
+import os
 
 app = Flask(__name__)
 
@@ -26,18 +27,31 @@ def generate():
     if not prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
-    img_path = generate_game_nft(prompt)
-    valid, score = validate_prompt_image(prompt, img_path)
-    unique = is_unique_image(img_path)
+    # Generate image and get filename (e.g., "abc123.png")
+    filename = generate_game_nft(prompt)
+
+    # Full image path for validation and uniqueness check
+    full_image_path = os.path.join("static", filename)
+
+    # Run CLIP validation + uniqueness check
+    valid, score = validate_prompt_image(prompt, full_image_path)
+    unique = is_unique_image(full_image_path)
+
+    # Construct full public image URL
+    base_url = request.host_url.rstrip("/")
+    image_url = f"{base_url}/images/{filename}"
 
     return jsonify({
-        "image_url": img_path,
+        "image_url": image_url,
         "similarity": score,
         "prompt_match": valid,
         "is_unique": unique
     })
 
+@app.route("/images/<path:filename>")
+def serve_image(filename):
+    return send_from_directory("static", filename)
+
 if __name__ == "__main__":
-    from os import environ
-    port = int(environ.get("PORT", 80))
+    port = int(os.environ.get("PORT", 80))
     app.run(host="0.0.0.0", port=port)
