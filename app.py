@@ -43,4 +43,7 @@ def serve_image(filename):
     return send_from_directory("static", filename)
 
 if __name__ == "__main__":
+    from os import environ
+    port = int(environ.get("PORT", 10000))  
+    port = int(os.environ.get("PORT", 80))
     app.run(host="0.0.0.0", port=port)
