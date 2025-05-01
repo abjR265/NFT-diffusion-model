@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Non-Fungible Token (NFT) Generator & Validator using AI Diffusion Model
 
-## Getting Started
+[Live Demo ➝](https://nft-diffusion-model.vercel.app)
 
-First, run the development server:
+A full-stack application that allows users to generate unique AI NFTs using text prompts, validate them using CLIP relevance and image hashing, and explore featured artworks. Built with Next.js, Tailwind CSS, Replicate API, and deployed via Vercel (frontend) and Render (Flask backend).
+
+---
+
+## Features
+
+- Text-to-Image Generation using Stable Diffusion via Replicate API
+- Prompt Relevance Scoring using OpenAI CLIP
+- Image Uniqueness Check using perceptual hashing
+- Dynamic Gallery for featured NFTs
+- Modern single-scroll UI styled like a gaming NFT marketplace
+
+---
+
+## Tech Stack
+
+**Frontend**
+- Next.js 14
+- Tailwind CSS
+- TypeScript
+- Vercel
+
+**Backend (Deprecated)**
+- Flask
+- CLIP (OpenAI)
+- imagehash
+- Render
+
+**AI Generation**
+- Replicate API (Stable Diffusion)
+
+---
+
+## How It Works
+
+1. User enters a prompt (e.g., "Cyberpunk Samurai on Mars")
+2. Image is generated using Replicate’s Stable Diffusion
+3. CLIP validates prompt-image similarity
+4. ImageHash ensures image uniqueness
+5. Valid NFTs are shown in the Featured Gallery
+
+---
+
+## Local Development
+
+### Prerequisites
+
+- Node.js 18+
+- Python 3.9+
+- Replicate API Token
+
+### Setup
 
 ```bash
+# Clone the repo
+git clone https://github.com/abjR265/NFT-diffusion-model.git
+cd ai-nft-generator
+
+# Install frontend dependencies
+npm install
+
+# Setup environment
+echo "REPLICATE_API_TOKEN=your_token_here" > .env.local
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Legacy backend (no longer required):
+```bash
+pip install -r requirements.txt
+python app.py
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+| Variable               | Description                          |
+|------------------------|--------------------------------------|
+| REPLICATE_API_TOKEN    | Your Replicate API key               |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Validation Logic
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Prompt-Image Relevance:
+  Uses CLIP to ensure cosine similarity between image and prompt is above threshold (e.g., 0.25)
+- Image Uniqueness:
+  Uses perceptual hashing via imagehash. Duplicates rejected.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Frontend (Vercel)
+```bash
+vercel --prod
+```
+
+### Backend (Legacy: Render)
+```bash
+# Deploy manually via render.com dashboard
+```
+
+---
+
+## Authors
+
+- Abhijay Rane (ar2536@cornell.edu)
+
+---
