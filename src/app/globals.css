@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 1fdb571 (Fix: resolve merge conflict in globals.css)
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
