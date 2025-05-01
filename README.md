@@ -1,6 +1,6 @@
 # Non-Fungible Token (NFT) Generator & Validator using AI Diffusion Model
 
-[Live Demo ➝](https://nft-diffusion-model.vercel.app)
+[Live Demo ➝[ https://nft-diffusion-model.vercel.app ]
 
 A full-stack application that allows users to generate unique AI NFTs using text prompts, validate them using CLIP relevance and image hashing, and explore featured artworks. Built with Next.js, Tailwind CSS, Replicate API, and deployed via Vercel (frontend) and Render (Flask backend).
 
